@@ -4,7 +4,6 @@ import javafx.application.Application
 import javafx.geometry.Rectangle2D
 import javafx.scene.Scene
 import javafx.scene.image.Image
-import javafx.scene.layout.VBox
 import javafx.stage.Screen
 import javafx.stage.Stage
 
@@ -14,7 +13,7 @@ class NodePlacer: Application() {
 
         @JvmStatic
         fun main(args: Array<String>) {
-            println("Launching NodeDeck...")
+            println("Launching NodePlacer...")
             launch(NodePlacer::class.java, *args)
         }
     }
@@ -26,7 +25,7 @@ class NodePlacer: Application() {
         Companion.stage = stage
 
         val bounds = Rectangle2D(screen.visualBounds.minX, screen.visualBounds.minY, screen.visualBounds.width, screen.visualBounds.height)
-        stage.scene = Scene(VBox(), bounds.width, bounds.height)
+        stage.scene = Scene(Dashboard, bounds.width, bounds.height)
         stage.sizeToScene()
         stage.show()
 
