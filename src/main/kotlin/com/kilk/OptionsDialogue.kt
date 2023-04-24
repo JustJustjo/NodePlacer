@@ -6,7 +6,7 @@ import javafx.scene.control.TextField
 import javafx.scene.layout.VBox
 import javafx.scene.text.Font
 
-class NodeOptions(button: Button): VBox() {
+class OptionsDialogue(button: Button): VBox() {
     val nameInput = TextField(button.text)
     val textSlider = Slider(15.0, 400.0, 15.0)
     init {
