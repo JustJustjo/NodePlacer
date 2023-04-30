@@ -28,8 +28,11 @@ object NodeSaver {
     fun loadButtons() {
         val file = fileChooser.showOpenDialog(NodePlacer.stage)
         val collectionType: Type = object : TypeToken<List<SavedNode?>?>() {}.type
-        val lcs: List<SavedNode> = Gson().fromJson(file.readText(), collectionType) as List<SavedNode>
-        println(lcs)
+        val savedNodeList: List<SavedNode> = Gson().fromJson(file.readText(), collectionType) as List<SavedNode>
+        println(savedNodeList)
+        savedNodeList.forEach {
+            Dashboard.placeButton(it.text, it.width, it.height, it.x, it.y)
+        }
     }
 }
 data class SavedNode(

@@ -22,16 +22,18 @@ object Dashboard: VBox() {
         pane.isVisible = true
         pane.setPrefSize(1.0, 1000.0)
         pane.style = "-fx-background-color: gray"
-        pane.setOnMousePressed { event -> clicked(event) }
+        pane.setOnMousePressed { event -> placeButton("Hi", 100.0, 100.0, event.x, event.y) }
     }
-    fun clicked(clickEvent: MouseEvent) {
-        println("${clickEvent.x}, ${clickEvent.y}")
-        val button = Button("HI")
+    fun placeButton(text: String, width: Double, height: Double, x: Double, y: Double) {
+        println("$x, $y")
+        val button = Button(text)
         val buttonContextMenu = ContextMenu()
         val optionsItem = MenuItem("Options")
         val deleteItem = MenuItem("Remove")
         val settings = Dialog<String>()
         val buttonType = ButtonType("Ok", ButtonData.OK_DONE)
+
+        button.setPrefSize(width, height)
 
         settings.dialogPane.buttonTypes.add(buttonType)
         settings.headerText = "Settings"
@@ -72,12 +74,12 @@ object Dashboard: VBox() {
         buttonContextMenu.items.addAll(optionsItem, deleteItem)
         button.contextMenu = buttonContextMenu
 
-        println(roundToLarge(gridSize, clickEvent.x - button.width))
+        println(roundToLarge(gridSize, x - button.width))
 
         pane.children.add(button)
         buttonList?.add(button)
-        button.translateX = roundToLarge(gridSize, clickEvent.x - button.width)
-        button.translateY = roundToLarge(gridSize, clickEvent.y - button.height)
+        button.translateX = roundToLarge(gridSize, x - button.width)
+        button.translateY = roundToLarge(gridSize, y - button.height)
     }
     fun buttonResize(button: Button,  event: MouseEvent) {
         button.setPrefSize(roundToLarge(gridSize, button.prefWidth + (event.x - button.prefWidth)), roundToLarge(gridSize, button.prefHeight +(event.y - button.prefHeight)))
