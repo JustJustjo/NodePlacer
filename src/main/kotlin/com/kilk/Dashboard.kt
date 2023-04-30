@@ -1,5 +1,7 @@
 package com.kilk
 
+import javafx.collections.FXCollections
+import javafx.collections.ObservableList
 import javafx.scene.Cursor
 import javafx.scene.control.*
 import javafx.scene.control.ButtonBar.ButtonData
@@ -7,18 +9,16 @@ import javafx.scene.input.MouseButton
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.Pane
 import javafx.scene.layout.VBox
-import javafx.scene.transform.Translate
-import javafx.stage.FileChooser
 import kotlin.math.round
 
 object Dashboard: VBox() {
     val pane = Pane()
     const val gridSize = 20
-    val fileChooser = FileChooser()
+    val buttonList: ObservableList<Button>? = FXCollections.observableArrayList()
+
     init {
         println("Dashboard says hi")
-        fileChooser.extensionFilters.add(FileChooser.ExtensionFilter("NodePlacer files", "*.nodes"))
-        Dashboard.children.addAll(pane)
+        Dashboard.children.addAll(MenuDeck, pane)
         pane.isVisible = true
         pane.setPrefSize(1.0, 1000.0)
         pane.style = "-fx-background-color: gray"
@@ -27,7 +27,6 @@ object Dashboard: VBox() {
     fun clicked(clickEvent: MouseEvent) {
         println("${clickEvent.x}, ${clickEvent.y}")
         val button = Button("HI")
-        val translate = Translate()
         val buttonContextMenu = ContextMenu()
         val optionsItem = MenuItem("Options")
         val deleteItem = MenuItem("Remove")
@@ -65,29 +64,28 @@ object Dashboard: VBox() {
                 if (event.x + button.width/6 > button.width || event.y + button.height/6 > button.height) {
                     buttonResize(button, event)
                 } else {
-                    buttonRelocate(button, translate, event)
+                    buttonRelocate(button, event)
                 }
             }
         }
 
         buttonContextMenu.items.addAll(optionsItem, deleteItem)
         button.contextMenu = buttonContextMenu
-        button.transforms.add(translate)
 
-        println(clickEvent.x - button.width)
         println(roundToLarge(gridSize, clickEvent.x - button.width))
 
         pane.children.add(button)
-        translate.x = roundToLarge(gridSize, clickEvent.x - button.width)
-        translate.y = roundToLarge(gridSize, clickEvent.y - button.height)
+        buttonList?.add(button)
+        button.translateX = roundToLarge(gridSize, clickEvent.x - button.width)
+        button.translateY = roundToLarge(gridSize, clickEvent.y - button.height)
     }
     fun buttonResize(button: Button,  event: MouseEvent) {
         button.setPrefSize(roundToLarge(gridSize, button.prefWidth + (event.x - button.prefWidth)), roundToLarge(gridSize, button.prefHeight +(event.y - button.prefHeight)))
     }
-    fun buttonRelocate(button: Button, translate: Translate,  event: MouseEvent) {
-        println("${event.x}, ${event.y}....${translate.x}, ${translate.y}")
-        translate.x = roundToLarge(gridSize, translate.x + (event.x - button.width/2))
-        translate.y = roundToLarge(gridSize, translate.y + (event.y - button.height/2))
+    fun buttonRelocate(button: Button,  event: MouseEvent) {
+//        println("${event.x}, ${event.y}....${translate.x}, ${translate.y}")
+        button.translateX = roundToLarge(gridSize, button.translateX + (event.x - button.width/2))
+        button.translateY = roundToLarge(gridSize, button.translateY + (event.y - button.height/2))
     }
     fun roundToLarge(int: Int, value: Double) : Double { //Rounds past 1 ex: Input: (100, 666.0) Output: 700.0
         return (round(value / int) * int)

@@ -11,10 +11,10 @@ object MenuDeck: MenuBar() {
     val loadItem = MenuItem("Load")
     init {
         saveItem.setOnAction {
-//            Dashboard.save()
+            NodeSaver.saveButtons(Dashboard.buttonList)
         }
         loadItem.setOnAction {
-//            Dashboard.load()
+            NodeSaver.loadButtons()
         }
         fileMenu.items.addAll(saveItem, loadItem)
         menus.addAll(fileMenu)
