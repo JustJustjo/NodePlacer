@@ -28,6 +28,5 @@ class NodePlacer: Application() {
         stage.scene = Scene(Dashboard, bounds.width, bounds.height)
         stage.sizeToScene()
         stage.show()
-
     }
 }
