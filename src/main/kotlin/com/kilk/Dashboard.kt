@@ -9,23 +9,27 @@ import javafx.scene.input.MouseEvent
 import javafx.scene.layout.Pane
 import javafx.scene.layout.VBox
 import javafx.scene.text.Font
+import javafx.stage.Screen
 import kotlin.math.round
 
 object Dashboard: VBox() {
     val pane = Pane()
     const val gridSize = 20
-    val buttonList: ObservableList<Button>? = FXCollections.observableArrayList()
+    val buttonList: ObservableList<ActionButton>? = FXCollections.observableArrayList()
+    val screen = Screen.getPrimary()
 
     init {
         println("Dashboard says hi")
         Dashboard.children.addAll(MenuDeck, pane)
-        pane.setPrefSize(1.0, 1000.0)
-        pane.style = "-fx-background-color: gray"
-        pane.setOnMousePressed { event -> placeButton(SavedNode(event.x, event.y)) }
+        setPrefSize(screen.visualBounds.width, screen.visualBounds.height)
+        pane.setPrefSize(screen.visualBounds.width, screen.visualBounds.height)
+        pane.style = "-fx-background-color: darkslategrey"
+        style = "-fx-background-color: black"
+        pane.setOnMousePressed { event -> placeButton(SavedButton(ActionType.PRINTLN, event.x, event.y)) }
     }
-    fun placeButton(node: SavedNode) {
+    fun placeButton(node: SavedButton) {
         println("creating button at (${node.x}, ${node.y})")
-        val button = Button(node.text)
+        val button = ActionButton(node.text, node.actionType)
         button.font = Font(node.fontSize)
 
         button.setOnMouseClicked {event ->
@@ -36,21 +40,22 @@ object Dashboard: VBox() {
 
         setButtonRelocation(button)
         OptionsDialogue(button)
+        println(button.actionType)
 
         pane.children.add(button)
         buttonList?.add(button)
         button.setPrefSize(node.width, node.height)
-        button.translateX = roundToLarge(gridSize, node.x - button.width)
-        button.translateY = roundToLarge(gridSize, node.y - button.height)
+        button.translateX = snapToGrid(gridSize, node.x - button.width)
+        button.translateY = snapToGrid(gridSize, node.y - button.height)
     }
 
     private fun buttonResize(button: Button,  event: MouseEvent) {
-        button.setPrefSize(roundToLarge(gridSize, button.prefWidth + (event.x - button.prefWidth)), roundToLarge(gridSize, button.prefHeight +(event.y - button.prefHeight)))
+        button.setPrefSize(snapToGrid(gridSize, button.prefWidth + (event.x - button.prefWidth)), snapToGrid(gridSize, button.prefHeight +(event.y - button.prefHeight)))
     }
     private fun buttonRelocate(button: Button,  event: MouseEvent) {
 //        println("${event.x}, ${event.y}....${translate.x}, ${translate.y}")
-        button.translateX = roundToLarge(gridSize, button.translateX + (event.x - button.width/2))
-        button.translateY = roundToLarge(gridSize, button.translateY + (event.y - button.height/2))
+        button.translateX = snapToGrid(gridSize, button.translateX + (event.x - button.width/2))
+        button.translateY = snapToGrid(gridSize, button.translateY + (event.y - button.height/2))
     }
     private fun setButtonRelocation(button: Button) {
         button.setOnMouseDragged {event ->
@@ -73,7 +78,7 @@ object Dashboard: VBox() {
             scene.cursor = Cursor.DEFAULT
         }
     }
-    private fun roundToLarge(int: Int, value: Double) : Double { //Rounds past 1 ex: Input: (100, 666.0) Output: 700.0
-        return (round(value / int) * int)
+    private fun snapToGrid(gridSize: Int, value: Double) : Double { //Rounds past 1 ex: Input: (100, 666.0) Output: 700.0
+        return (round(value / gridSize) * gridSize)
     }
 }

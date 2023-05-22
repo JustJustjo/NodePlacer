@@ -15,28 +15,28 @@ object NodeSaver {
     }
     fun loadButtons() {
         val file = fileChooser.showOpenDialog(NodePlacer.stage)
-        val collectionType: Type = object : TypeToken<List<SavedNode?>?>() {}.type
-        val savedNodeList: List<SavedNode> = Gson().fromJson(file.readText(), collectionType) as List<SavedNode>
-        println(savedNodeList)
-        savedNodeList.forEach {
+        val collectionType: Type = object : TypeToken<List<SavedButton?>?>() {}.type
+        val savedButtonList: List<SavedButton> = Gson().fromJson(file.readText(), collectionType) as List<SavedButton>
+        println(savedButtonList)
+        savedButtonList.forEach {
             Dashboard.placeButton(it)
         }
     }
-    fun saveButtons(list: ObservableList<Button>?) {
+    fun saveButtons(list: ObservableList<ActionButton>?) {
         println("Inside saveButtons. $list")
         val file = fileChooser.showSaveDialog(NodePlacer.stage)
         val gson = Gson()
-        val savedNodeList: ObservableList<SavedNode> = FXCollections.observableArrayList()
+        val savedButtonList: ObservableList<SavedButton> = FXCollections.observableArrayList()
         list?.forEach {
-            savedNodeList.add(SavedNode(it.translateX, it.translateY, it.width, it.height, it.text, it.font.size))
+            savedButtonList.add(SavedButton(it.actionType, it.translateX, it.translateY, it.width, it.height, it.text, it.font.size))
         }
-        println(savedNodeList)
-        val jsonString = gson.toJson(savedNodeList)
+        println(savedButtonList)
+        val jsonString = gson.toJson(savedButtonList)
         file.writeText(jsonString)
     }
 }
-data class SavedNode(
-//    val type: NodeType,
+data class SavedButton(
+    val actionType: ActionType,
     val x: Double,
     val y: Double,
     val width: Double = 50.0,
@@ -44,6 +44,19 @@ data class SavedNode(
     val text: String = "Hi",
     var fontSize: Double = 15.0
 )
-enum class NodeType{
-    BUTTON
+enum class ActionType{
+    PRINTLN,
+    TOGGLE,
+    SET,
+    ADD,
+    SUBTRACT,
+    DIVIDE,
+    MULTIPLY
+}
+class ActionButton(text: String, type: ActionType = ActionType.PRINTLN): Button(text){
+    var actionType: ActionType = type
+        set(value) {
+            println(value)
+            field = value
+        }
 }

@@ -4,9 +4,10 @@ import javafx.scene.control.*
 import javafx.scene.layout.VBox
 import javafx.scene.text.Font
 
-class OptionsDialogue(button: Button): VBox() {
+class OptionsDialogue(button: ActionButton): VBox() {
     val nameInput = TextField(button.text)
     val textSlider = Slider(15.0, 400.0, 15.0)
+    val actionButton = Button("SET")
     init {
         setOptionsMenu(button)
         nameInput.setOnKeyTyped {
@@ -15,8 +16,11 @@ class OptionsDialogue(button: Button): VBox() {
         textSlider.setOnMouseDragged {
             button.font = Font(textSlider.value)
         }
+        actionButton.setOnAction {
+            button.actionType = ActionType.SET
+        }
         println(button.font)
-        children.addAll(nameInput, textSlider)
+        children.addAll(nameInput, textSlider, actionButton)
     }
     fun setOptionsMenu(button: Button) {
         val buttonContextMenu = ContextMenu()
