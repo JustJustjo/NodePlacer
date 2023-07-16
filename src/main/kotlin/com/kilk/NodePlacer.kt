@@ -41,6 +41,7 @@ default blank tab
 edit mode?
 button: println, publish to nt: plus, subtract, multiply, divide, set, toggle
 textfield: show value, change value
+undo button????
 
 
 

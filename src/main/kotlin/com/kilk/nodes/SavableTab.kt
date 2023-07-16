@@ -15,10 +15,11 @@ class SavableTab(text: String = ":)"): Tab(text), Savable {
         pane.setPrefSize(screenBounds.width, screenBounds.height)
         pane.style = "-fx-background-color: darkslategray"
 
-        pane.setOnMouseClicked { event ->
+        pane.setOnMousePressed { event ->
             if (editMode) {
                 if (event.button == MouseButton.SECONDARY) {
                     println("Secondary")
+                    pane.children.add(ActionTextBox(event.x, event.y, 500.0, 200.0, pane.children.count().toString(), TextBoxType.WRITE, PublishAction.PRINTLN))
                 } else {
                     pane.children.add(ActionButton(event.x, event.y, 100.0, 100.0, pane.children.count().toString(), ButtonType.TOGGLE, PublishAction.PRINTLN, true, true, showValueAsText = true))
                 }

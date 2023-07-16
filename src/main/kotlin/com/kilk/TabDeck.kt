@@ -21,6 +21,7 @@ object TabDeck: VBox(), Savable {
             tabs.forEach { it.isClosable = value }
             field = value
         }
+    var gridSize: Int = 10
 
     val screenWidth = Screen.getPrimary().visualBounds.width
     val screenHeight = Screen.getPrimary().visualBounds.height
@@ -101,14 +102,6 @@ object TabDeck: VBox(), Savable {
 //        return button
 //    }
 //
-//    private fun buttonResize(node: Control, event: MouseEvent) {
-//        node.setPrefSize(snapToGrid(gridSize, node.prefWidth + (event.x - node.prefWidth)), snapToGrid(gridSize, node.prefHeight +(event.y - node.prefHeight)))
-//    }
-//    private fun buttonRelocate(node: Control, event: MouseEvent) {
-////        println("${event.x}, ${event.y}....${translate.x}, ${translate.y}")
-//        node.translateX = snapToGrid(gridSize, node.translateX + (event.x - node.width/2))
-//        node.translateY = snapToGrid(gridSize, node.translateY + (event.y - node.height/2))
-//    }
 //    private fun setNodeRelocation(node: Control ) {
 //        node.setOnMouseDragged { event ->
 //            if (event.button == MouseButton.PRIMARY) {
@@ -129,7 +122,4 @@ object TabDeck: VBox(), Savable {
 //        node.setOnMouseExited {
 //            scene.cursor = Cursor.DEFAULT
 //        }
-//    }
-//    private fun snapToGrid(gridSize: Int, value: Double) : Double { //Rounds past 1 ex: Input: (100, 666.0) Output: 700.0
-//        return (round(value / gridSize) * gridSize)
 //    }
