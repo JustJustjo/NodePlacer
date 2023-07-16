@@ -25,8 +25,23 @@ class NodePlacer: Application() {
         Companion.stage = stage
 
         val bounds = Rectangle2D(screen.visualBounds.minX, screen.visualBounds.minY, screen.visualBounds.width, screen.visualBounds.height)
-        stage.scene = Scene(Dashboard, bounds.width, bounds.height)
+        stage.scene = Scene(TabDeck, bounds.width, bounds.height)
         stage.sizeToScene()
         stage.show()
     }
 }
+
+/*ideas:
+(global) settings tab
+create tab button
+recolor tab
+change background
+relocate tab
+default blank tab
+edit mode?
+button: println, publish to nt: plus, subtract, multiply, divide, set, toggle
+textfield: show value, change value
+
+
+
+ */
