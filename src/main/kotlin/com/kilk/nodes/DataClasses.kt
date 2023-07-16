@@ -4,7 +4,6 @@ data class SavedTabDeck (
     val tabs: ArrayList<String>?
 )
 data class SavedTab (
-    val tabType: TabType,
     val text: String,
     val style: String,
     val children: ArrayList<String>
@@ -16,20 +15,20 @@ data class SavedActionButton (
     val height: Double,
     val text: String,
     val buttonType: ButtonType,
-    val nodeAction: NodeAction,
+    val publishAction: PublishAction,
     val defaultValue: Any,
     val actionValue: Any,
     val style: String,
     val showValueAsText: Boolean
 )
-data class SavedTextField (
+data class SavedTextBox (
     val x: Double,
     val y: Double,
     val width: Double,
     val height: Double,
+    val text: String,
     val textBoxType: TextBoxType,
-    val nodeAction: NodeAction,
-    val defaultValue: Any,
+    val publishAction: PublishAction,
     val style: String
 )
 
@@ -47,12 +46,8 @@ enum class TextBoxType {
     WRITE,
     READ
 }
-enum class TabType {
-    DEFAULT,
-    CUSTOM
-}
-
-enum class NodeAction {
+enum class PublishAction {
     PRINTLN,
-    NT
+    NT,
+    NONE
 }
