@@ -5,6 +5,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.kilk.TabDeck
 import kotlin.math.round
 
+//interface that all NodePlacer custom nodes have
 interface Savable {
     val jsonMapper: ObjectMapper
         get() = jacksonObjectMapper()

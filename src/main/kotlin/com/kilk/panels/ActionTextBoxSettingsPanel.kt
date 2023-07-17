@@ -7,7 +7,9 @@ import javafx.scene.layout.VBox
 import javafx.scene.text.Font
 
 class ActionTextBoxSettingsPanel(textBox: ActionTextBox): VBox() {
+    //textbox to change the text of parent textbox
     val textInput = TextField(textBox.text)
+    //slider to change font size
     val textSizeSlider = Slider(15.0, 400.0, 15.0)
     init {
         textInput.setOnKeyTyped {

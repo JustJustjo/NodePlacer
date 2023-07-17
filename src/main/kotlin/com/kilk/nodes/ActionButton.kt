@@ -16,7 +16,8 @@ class ActionButton(x: Double, y: Double, width: Double, height: Double, text: St
             }
             if (this.showValueAsText) { text = value.toString() }
         }
-    val resizeThreshold: Double = 0.15 //% of the width and height of button for the cursor to be in order to resize
+
+    val resizeThreshold: Double = 0.15 //% of the width and height for the cursor to be in order to resize
     private var pressedLocation = Pair(0.0, 0.0)
 
     init {
@@ -84,6 +85,7 @@ class ActionButton(x: Double, y: Double, width: Double, height: Double, text: St
             }
         }
         this.setOnMouseExited {
+            //resets the cursor to be back to default
             scene.cursor = Cursor.DEFAULT
         }
         this.setOnMousePressed {

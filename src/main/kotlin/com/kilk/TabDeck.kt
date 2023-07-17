@@ -27,14 +27,11 @@ object TabDeck: VBox(), Savable {
     val screenWidth = Screen.getPrimary().visualBounds.width
     val screenHeight = Screen.getPrimary().visualBounds.height
 
-
-
-
-
     init {
         println("TabDeck says hi")
         TabDeck.children.addAll(MenuDeck, tabPane)
 
+        //little dance of removing/adding tabs to make the addTab work the way I want
         addTab.setOnSelectionChanged {
             if (addTab.isSelected) {
                 tabs.remove(addTab)
@@ -45,10 +42,13 @@ object TabDeck: VBox(), Savable {
         }
 
         style = "-fx-background-color: black"
+
+        //setting tab width/height, in the future I would like to be able to change this value
         tabPane.tabMinHeight = screenHeight/30.0
         tabPane.tabMinWidth = screenWidth/20.0
         tabPane.style = "-fx-background-color: black"
         tabPane.setPrefSize(screenWidth, screenHeight)
+        //if there are no tabs, create a new blank tab
         if (tabs.isEmpty()) {
             tabs.add(SavableTab())
         }
@@ -70,62 +70,3 @@ object TabDeck: VBox(), Savable {
         }
     }
 }
-
-
-
-
-
-
-//fun placeNode(savedNode: SavedNode) {
-//        val node = when (savedNode.nodeType) {
-//            NodeType.BUTTON -> { createButton(savedNode) }
-//            NodeType.TEXTFIELD -> { ActionTextField(savedNode.text, savedNode.actionType, savedNode.actionValue) }
-//        }
-//
-//        setNodeRelocation(node)
-//
-//
-//        pane.children.add(node)
-//        node.setPrefSize(savedNode.width, savedNode.height)
-//        node.translateX = snapToGrid(gridSize, savedNode.x/* - savedNode.width*/)
-//        node.translateY = snapToGrid(gridSize, savedNode.y/* - savedNode.height*/)
-//    }
-//    fun createButton(node: SavedNode): ActionButton {
-//        val button = ActionButton(node.text, node.actionType, node.actionValue)
-//        button.font = Font(node.fontSize)
-//        button.x = node.x
-//        button.y = node.y
-//        button.setOnMouseClicked {event ->
-//            if (event.button == MouseButton.PRIMARY) {
-//                when (button.actionType) {
-//                    ActionType.PRINTLN -> println(node.actionValue)
-//                    else -> println("idk what to do")
-//                }
-//            }
-//        }
-//        OptionsDialogue(button)
-//        buttonList?.add(button)
-//        return button
-//    }
-//
-//    private fun setNodeRelocation(node: Control ) {
-//        node.setOnMouseDragged { event ->
-//            if (event.button == MouseButton.PRIMARY) {
-//                if (event.x + node.width/6 > node.width || event.y + node.height/6 > node.height) {
-//                    buttonResize(node, event)
-//                } else {
-//                    buttonRelocate(node, event)
-//                }
-//            }
-//        }
-//        node.setOnMouseMoved { event ->
-//            if (event.x + node.width/6 > node.width || event.y + node.height/6 > node.height) {
-//                scene.cursor = Cursor.SE_RESIZE
-//            } else {
-//                scene.cursor = Cursor.CROSSHAIR
-//            }
-//        }
-//        node.setOnMouseExited {
-//            scene.cursor = Cursor.DEFAULT
-//        }
-//    }

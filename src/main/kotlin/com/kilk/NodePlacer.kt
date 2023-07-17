@@ -39,7 +39,7 @@ change background
 relocate tab
 default blank tab
 edit mode?
-button: println, publish to nt: plus, subtract, multiply, divide, set, toggle
+button: println, publish to nt: plus, subtract, set, toggle
 textfield: show value, change value
 undo button????
 

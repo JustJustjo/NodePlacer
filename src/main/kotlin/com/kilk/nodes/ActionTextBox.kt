@@ -18,6 +18,7 @@ class ActionTextBox(x: Double, y: Double, width: Double, height: Double, text: S
             this.text = value
             field = value
         }
+
     val resizeThreshold: Double = 0.15 //% of the width and height of button for the cursor to be in order to resize
     private var pressedLocation = Pair(0.0, 0.0)
 
@@ -31,7 +32,6 @@ class ActionTextBox(x: Double, y: Double, width: Double, height: Double, text: S
         this.style = style
 
         changeTextBoxAction(this.textBoxType)
-
         //sets the context menu to rightClickMenu (whenever this button gets right-clicked it will show up)
         this.contextMenu = RightClickPanel(this, ActionTextBoxSettingsPanel(this))
     }
@@ -41,7 +41,7 @@ class ActionTextBox(x: Double, y: Double, width: Double, height: Double, text: S
     private fun setEditActions() {
         this.setOnMouseDragged { event ->
             if (event.button == MouseButton.PRIMARY && editMode) {
-                //checks if mouse is on the edge of button. if true: resize. if false: relocate.
+                //checks if mouse is on the edge of textbox. if true: resize. if false: relocate.
                 if (event.x + this.width * resizeThreshold  > this.width || event.y + this.height * resizeThreshold > this.height) {
                     //resize width and height
                     this.setMinSize(
@@ -49,7 +49,7 @@ class ActionTextBox(x: Double, y: Double, width: Double, height: Double, text: S
                         snapToGrid(event.y)
                     )
                 } else {
-                    //relocate the x and y cords of the button
+                    //relocate the x and y cords of the textbox
                     this.translateX = snapToGrid(this.translateX + (event.x - pressedLocation.first))
                     this.translateY = snapToGrid(this.translateY + (event.y - pressedLocation.second))
                 }
@@ -64,6 +64,7 @@ class ActionTextBox(x: Double, y: Double, width: Double, height: Double, text: S
                     scene.cursor = Cursor.CROSSHAIR
                 }
             }
+            this.isEditable = !editMode
         }
         this.setOnMouseExited {
             scene.cursor = Cursor.DEFAULT
@@ -74,9 +75,6 @@ class ActionTextBox(x: Double, y: Double, width: Double, height: Double, text: S
 
     }
 
-
-
-
     fun changeTextBoxAction(textBoxType: TextBoxType) {
         when (textBoxType) {
             TextBoxType.WRITE -> setWriteAction()
@@ -84,6 +82,7 @@ class ActionTextBox(x: Double, y: Double, width: Double, height: Double, text: S
         }
         setEditActions()
     }
+    //what it will do to the value when reading
     private fun setWriteAction() {
         this.isEditable = true
         this.setOnAction {
@@ -91,10 +90,8 @@ class ActionTextBox(x: Double, y: Double, width: Double, height: Double, text: S
                 value = this.text
             }
         }
-        this.setOnMouseMoved {
-            this.isEditable = !editMode
-        }
     }
+    //set to do nothing when clicked
     private fun setReadAction() {
         this.isEditable = false
         this.setOnAction {}
