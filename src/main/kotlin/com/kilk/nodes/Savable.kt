@@ -10,7 +10,7 @@ interface Savable {
         get() = jacksonObjectMapper()
 
     fun getJson(): String { return "getJson() function not implemented" }
-    fun loadJson(json: String): String { return "loadJson() function not implemented" }
+    fun loadChildren(childrenArray: ArrayList<String>?) { println("loadJson() function not implemented") }
 
     fun snapToGrid(value: Double, gridSize: Int = TabDeck.gridSize) : Double { //Rounds past 1 ex: Input: (666.0, gridSize = 100) Output: 700.0
         return (round(value / gridSize) * gridSize)

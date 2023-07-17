@@ -31,6 +31,10 @@ data class SavedTextBox (
     val publishAction: PublishAction,
     val style: String
 )
+data class SavedNode (
+    val nodeType: NodeType,
+    val data: String
+)
 
 enum class NodeType{
     BUTTON,

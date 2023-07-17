@@ -24,8 +24,10 @@ class ActionTextBox(x: Double, y: Double, width: Double, height: Double, text: S
     init {
         this.translateX = x
         this.translateY = y
-        this.width = width
-        this.height = height
+        this.minWidth = width
+        this.maxWidth = width
+        this.minHeight = height
+        this.maxHeight = height
         this.style = style
 
         changeTextBoxAction(this.textBoxType)
@@ -100,6 +102,7 @@ class ActionTextBox(x: Double, y: Double, width: Double, height: Double, text: S
     }
     override fun getJson(): String {
         println("in $this getJson() function")
-        return jsonMapper.writeValueAsString(SavedTextBox(translateX, translateY, width, height, text, textBoxType, publishAction, style))
+        val data = jsonMapper.writeValueAsString(SavedTextBox(translateX, translateY, width, height, text, textBoxType, publishAction, style))
+        return jsonMapper.writeValueAsString(SavedNode(NodeType.TEXTBOX, data))
     }
 }

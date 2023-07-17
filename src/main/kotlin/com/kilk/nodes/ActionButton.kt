@@ -22,8 +22,8 @@ class ActionButton(x: Double, y: Double, width: Double, height: Double, text: St
     init {
         this.translateX = x
         this.translateY = y
-        this.width = width
-        this.height = height
+        this.minWidth = width
+        this.minHeight = height
         this.style = style
         this.text = value.toString()
 
@@ -93,6 +93,7 @@ class ActionButton(x: Double, y: Double, width: Double, height: Double, text: St
 
     override fun getJson(): String {
         println("in $this getJson() function")
-        return jsonMapper.writeValueAsString(SavedActionButton(translateX, translateY, width, height, text, buttonType, publishAction, defaultValue, actionValue, style, showValueAsText))
+        val data = jsonMapper.writeValueAsString(SavedActionButton(translateX, translateY, width, height, text, buttonType, publishAction, defaultValue, actionValue, style, showValueAsText))
+        return jsonMapper.writeValueAsString(SavedNode(NodeType.BUTTON, data))
     }
 }

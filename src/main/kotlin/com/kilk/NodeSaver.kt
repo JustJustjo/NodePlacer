@@ -1,5 +1,7 @@
 package com.kilk
 
+import com.fasterxml.jackson.module.kotlin.readValue
+import com.kilk.nodes.SavedTabDeck
 import javafx.stage.FileChooser
 
 object NodeSaver {
@@ -17,6 +19,9 @@ object NodeSaver {
 
     fun loadNodes() {
         val importFile = fileChooser.showOpenDialog(NodePlacer.stage)
+        println(importFile.readText())
+        val savedTabDeck: SavedTabDeck = TabDeck.jsonMapper.readValue(importFile.readText())
+        TabDeck.loadChildren(savedTabDeck.tabs)
 
     }
 

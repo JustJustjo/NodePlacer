@@ -1,5 +1,6 @@
 package com.kilk
 
+import com.fasterxml.jackson.module.kotlin.readValue
 import com.kilk.nodes.*
 import javafx.scene.control.*
 import javafx.scene.layout.VBox
@@ -60,9 +61,14 @@ object TabDeck: VBox(), Savable {
 
         return jsonMapper.writeValueAsString(SavedTabDeck(tabStringArray))
     }
-
-
-
+    override fun loadChildren(childrenArray: ArrayList<String>?) {
+        childrenArray?.forEach {
+            val tab: SavedTab = jsonMapper.readValue(it)
+            val newTab = SavableTab(tab.text, tab.style, tab.children)
+            tabs.add(newTab)
+            tabPane.selectionModel.select(newTab)
+        }
+    }
 }
 
 
