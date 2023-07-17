@@ -48,6 +48,10 @@ class ActionTextBox(x: Double, y: Double, width: Double, height: Double, text: S
                         snapToGrid(event.x),
                         snapToGrid(event.y)
                     )
+                    this.setMaxSize(
+                        snapToGrid(event.x),
+                        snapToGrid(event.y)
+                    )
                 } else {
                     //relocate the x and y cords of the textbox
                     this.translateX = snapToGrid(this.translateX + (event.x - pressedLocation.first))

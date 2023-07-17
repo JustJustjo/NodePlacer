@@ -57,7 +57,7 @@ class SavableTab(text: String = ":)", style: String = "", childrenArray: ArrayLi
                 }
                 NodeType.TEXTBOX -> {
                     val d: SavedTextBox = jsonMapper.readValue(data)
-                    pane.children.add(ActionTextBox(d.x, d.y, d.width, d.height, d.text, d.textBoxType, d.publishAction))
+                    pane.children.add(ActionTextBox(d.x, d.y, d.width, d.height, d.text, d.textBoxType, d.publishAction, d.style))
                 }
             }
         }

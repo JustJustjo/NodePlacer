@@ -12,7 +12,7 @@ object TabDeck: VBox(), Savable {
 
     val addTab = Tab("+")
 
-    var editMode: Boolean = false
+    var editMode: Boolean = true
         set(value) {
             if (value) {
                 tabs.add(addTab)
@@ -52,6 +52,9 @@ object TabDeck: VBox(), Savable {
         if (tabs.isEmpty()) {
             tabs.add(SavableTab())
         }
+        if (editMode) {
+            tabs.add(addTab)
+        }
     }
 
     override fun getJson(): String {
@@ -68,5 +71,7 @@ object TabDeck: VBox(), Savable {
             tabs.add(newTab)
             tabPane.selectionModel.select(newTab)
         }
+        tabs.remove(addTab)
+        tabs.add(addTab)
     }
 }
