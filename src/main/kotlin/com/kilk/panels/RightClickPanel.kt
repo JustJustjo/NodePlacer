@@ -27,7 +27,9 @@ class RightClickPanel(node: Node, content: Node): ContextMenu() {
         this.items.addAll(settingsItem, deleteItem)
 
         settingsWindow.dialogPane.buttonTypes.add(ButtonType("Ok", ButtonBar.ButtonData.OK_DONE))
-        settingsWindow.headerText = "Settings"
+        settingsWindow.headerText = "Settings for ${node.javaClass.name.removePrefix(node.javaClass.`package`.toString().removePrefix("package ") + ".")}"
+        println(Pair(node.javaClass.`package`.toString().removePrefix("package"), node.javaClass.name))
+        println("${node.javaClass.`package`}")
         //sets the content of the dialog window
         settingsWindow.dialogPane.content = content
     }

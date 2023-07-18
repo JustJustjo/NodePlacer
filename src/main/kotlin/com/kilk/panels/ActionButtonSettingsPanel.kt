@@ -6,7 +6,7 @@ class ActionButtonSettingsPanel(button: ActionButton): NodeSettingsPanel(button)
 
     init {
         if (button.showValueAsText) {
-            children.remove(textInput)
+            children.remove(textInputLabel)
         }
     }
 
