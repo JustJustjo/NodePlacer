@@ -7,7 +7,8 @@ import kotlin.math.roundToInt
 open class NodeSettingsPanel(val node: Control): VBox() {
     //textbox to change the text of button
     val textInput = TextField()
-    val styleInput = TextField(node.style)
+    val styleInput = TextArea(node.style)
+    var prevStyleInput: String = styleInput.text
     //text size slider
     val fontSizeSlider = Slider(15.0, 400.0, 15.0)
 
@@ -15,13 +16,18 @@ open class NodeSettingsPanel(val node: Control): VBox() {
 
     var textSize: Int = fontSizeSlider.value.roundToInt()
         set(value) {
-            node.style = node.style.replace("-fx-font-size: ${field}px; ", "-fx-font-size: ${value}px; ")
+            node.style = node.style.replace("-fx-font-size: ${field}px;", "-fx-font-size: ${value}px;")
             field = value
         }
 
     init {
+        println(node.style)
         if (!node.style.contains("-fx-font-size:")) {
-            node.style += "-fx-font-size: ${textSize}px; "
+            node.style += "-fx-font-size: ${textSize}px;"
+        }
+        if (!node.style.contains(styleInput.text)) {
+            node.style += "; "
+            prevStyleInput = " "
         }
         textInput.setOnKeyTyped {
             when (node) {
@@ -30,7 +36,10 @@ open class NodeSettingsPanel(val node: Control): VBox() {
             }
         }
         styleInput.setOnKeyTyped {
-            node.style = styleInput.text
+            node.style = node.style.replace(prevStyleInput, "")
+            node.style += styleInput.text
+            prevStyleInput = styleInput.text
+            println(Pair(node.style, prevStyleInput))
         }
         fontSizeSlider.setOnMouseDragged {
             textSize = fontSizeSlider.value.roundToInt()
