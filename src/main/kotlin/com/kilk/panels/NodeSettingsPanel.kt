@@ -5,7 +5,7 @@ import javafx.scene.control.*
 import javafx.scene.layout.VBox
 import kotlin.math.roundToInt
 
-open class NodeSettingsPanel(val node: Control): VBox() {
+open class NodeSettingsPanel(val node: Control): VBox(10.0) {
     //textbox to change the text of button
     val textInput = TextField()
     val textInputLabel = Label("Text:", textInput)
