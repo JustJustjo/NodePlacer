@@ -29,6 +29,10 @@ class NodePlacer: Application() {
         stage.sizeToScene()
         stage.show()
     }
+    override fun stop() {
+        NTClient.disconnect()
+        println("Bye")
+    }
 }
 
 /*ideas:

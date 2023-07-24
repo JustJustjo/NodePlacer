@@ -23,6 +23,7 @@ object TabDeck: VBox(), Savable {
             field = value
         }
     var gridSize: Int = 10
+    val borderWidth: String = " 10 10 10 10"
 
     val screenWidth = Screen.getPrimary().visualBounds.width
     val screenHeight = Screen.getPrimary().visualBounds.height
@@ -41,7 +42,6 @@ object TabDeck: VBox(), Savable {
             }
         }
 
-        style = "-fx-background-color: black"
 
         //setting tab width/height, in the future I would like to be able to change this value
         tabPane.tabMinHeight = screenHeight/30.0
@@ -73,5 +73,13 @@ object TabDeck: VBox(), Savable {
         }
         tabs.remove(addTab)
         tabs.add(addTab)
+    }
+    fun updateBorder() {
+        if (!NTClient.ntInstance.isConnected) {
+            style = "-fx-background-color: black; -fx-border-color: yellow; -fx-border-width: $borderWidth"
+        } else {
+            val color = if (NTClient.isRed) "red" else "blue"
+            style = "-fx-background-color: black; -fx-border-color: $color; -fx-border-width: $borderWidth;" //-fx-border-color: #00c434;
+        }
     }
 }

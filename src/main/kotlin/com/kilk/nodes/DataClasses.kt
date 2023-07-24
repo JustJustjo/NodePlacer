@@ -19,7 +19,20 @@ data class SavedActionButton (
     val defaultValue: Any,
     val actionValue: Any,
     val style: String,
-    val showValueAsText: Boolean
+    val showValueAsText: Boolean,
+    val entryKey: String?
+)
+data class SavedActionToggleButton (
+    val x: Double,
+    val y: Double,
+    val width: Double,
+    val height: Double,
+    val text: String,
+    val publishAction: PublishAction,
+    val defaultValue: Boolean,
+    val style: String,
+    val showValueAsText: Boolean,
+    val entryKey: String?
 )
 data class SavedTextBox (
     val x: Double,
@@ -37,11 +50,11 @@ data class SavedNode (
 )
 
 enum class NodeType{
+    TOGGLEBUTTON,
     BUTTON,
     TEXTBOX
 }
 enum class ButtonType{
-    TOGGLE,
     SET,
     ADD,
     SUBTRACT
@@ -51,7 +64,7 @@ enum class TextBoxType {
     READ
 }
 enum class PublishAction {
-    PRINTLN,
-    NT,
+    PRINT,
+    NETWORKTABLES,
     NONE
 }

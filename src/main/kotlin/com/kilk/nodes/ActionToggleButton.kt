@@ -1,20 +1,20 @@
 package com.kilk.nodes
 
 import com.kilk.NTClient
-import com.kilk.TabDeck.editMode
-import com.kilk.panels.ActionButtonSettingsPanel
+import com.kilk.TabDeck
+import com.kilk.panels.ActionToggleButtonSettings
 import com.kilk.panels.RightClickPanel
 import javafx.scene.Cursor
-import javafx.scene.control.*
+import javafx.scene.control.Button
 import javafx.scene.input.MouseButton
 
-class ActionButton(x: Double, y: Double, width: Double, height: Double, text: String, var buttonType: ButtonType, var publishAction: PublishAction, defaultValue: Any, var actionValue: Any, style: String = "", var showValueAsText: Boolean = false, var entryKey: String? = null): Button(text), Savable {
-    var defaultValue: Any = defaultValue
+class ActionToggleButton(x: Double, y: Double, width: Double, height: Double, text: String, var publishAction: PublishAction, defaultValue: Boolean = false, style: String = "", var showValueAsText: Boolean = false, var entryKey: String? = null): Button(text), Savable {
+    var defaultValue: Boolean = defaultValue
         set(value) {
             this.value = value
             field = value
         }
-    var value: Any = defaultValue
+    var value: Boolean = defaultValue
         set(value) {
             when (publishAction) {
                 PublishAction.PRINT -> { println(value) }
@@ -38,57 +38,20 @@ class ActionButton(x: Double, y: Double, width: Double, height: Double, text: St
         this.style = style
         this.text = value.toString()
 
-        setButtonAction(this.buttonType)
-        //sets the context menu to rightClickMenu (whenever this button gets right-clicked it will show up)
-        this.contextMenu = RightClickPanel(this, ActionButtonSettingsPanel(this))
-    }
-
-    fun setButtonAction(buttonType: ButtonType) {
-        this.buttonType = buttonType
-        when (buttonType) {
-            ButtonType.SET -> setSetAction()
-            ButtonType.ADD -> setAddAction()
-            ButtonType.SUBTRACT -> setSubtractAction()
+        this.setOnAction {
+            if (!TabDeck.editMode) {
+                value = !(value)
+            }
         }
         setEditActions()
+        //sets the context menu to rightClickMenu (whenever this button gets right-clicked it will show up)
+        this.contextMenu = RightClickPanel(this, ActionToggleButtonSettings(this))
     }
-    private fun setSetAction() {
-        this.setOnAction {
-            if (!editMode) {
-                value = actionValue
-            }
-        }
-    }
-    private fun setAddAction() {
-        this.setOnAction {event ->
-            if (!editMode) {
-                try {
-                    value = value.toString().toInt().plus(actionValue.toString().toInt())
-                } catch (e: Exception) {
-                    try {
-                        value = value.toString().toDouble().plus(actionValue.toString().toDouble())
-                    } catch (_: Exception) { }
-                }
-            }
-        }
-    }
-    private fun setSubtractAction() {
-        this.setOnAction {event ->
-            if (!editMode) {
-                try {
-                    value = value.toString().toInt().minus(actionValue.toString().toInt())
-                } catch (e: Exception) {
-                    try {
-                        value = value.toString().toDouble().minus(actionValue.toString().toDouble())
-                    } catch (_: Exception) { }
-                }
-            }
-        }
-    }
+
     //adds the relocating and resizing to the button
     private fun setEditActions() {
         this.setOnMouseDragged { event ->
-            if (event.button == MouseButton.PRIMARY && editMode) {
+            if (event.button == MouseButton.PRIMARY && TabDeck.editMode) {
                 //checks if mouse is on the edge of button. if true: resize. if false: relocate.
                 if (event.x + this.width * resizeThreshold  > this.width || event.y + this.height * resizeThreshold > this.height) {
                     //resize width and height
@@ -104,7 +67,7 @@ class ActionButton(x: Double, y: Double, width: Double, height: Double, text: St
             }
         }
         this.setOnMouseMoved { event ->
-            if (editMode) {
+            if (TabDeck.editMode) {
                 //changes the cursor to let the user know if they're resizing or relocating
                 if (event.x + this.width * resizeThreshold > this.width || event.y + this.height * resizeThreshold > this.height) {
                     scene.cursor = Cursor.SE_RESIZE
@@ -124,7 +87,7 @@ class ActionButton(x: Double, y: Double, width: Double, height: Double, text: St
 
     override fun getJson(): String {
         println("in $this getJson() function")
-        val data = jsonMapper.writeValueAsString(SavedActionButton(translateX, translateY, width, height, text, buttonType, publishAction, defaultValue, actionValue, style, showValueAsText, entryKey))
-        return jsonMapper.writeValueAsString(SavedNode(NodeType.BUTTON, data))
+        val data = jsonMapper.writeValueAsString(SavedActionToggleButton(translateX, translateY, width, height, text, publishAction, defaultValue, style, showValueAsText, entryKey))
+        return jsonMapper.writeValueAsString(SavedNode(NodeType.TOGGLEBUTTON, data))
     }
 }

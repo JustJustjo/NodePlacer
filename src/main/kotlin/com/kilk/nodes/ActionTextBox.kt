@@ -11,7 +11,7 @@ class ActionTextBox(x: Double, y: Double, width: Double, height: Double, text: S
     var value: String = text
         set(value) {
             when (publishAction) {
-                PublishAction.PRINTLN -> { println(value) }
+                PublishAction.PRINT -> { println(value) }
                 PublishAction.NONE -> {}
                 else -> println("Action $publishAction not implemented yet")
             }

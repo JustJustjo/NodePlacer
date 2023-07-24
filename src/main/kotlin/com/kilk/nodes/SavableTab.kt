@@ -24,9 +24,9 @@ class SavableTab(text: String = ":)", style: String = "", childrenArray: ArrayLi
                 //later this wil give tab options on right click, but right now it creates a button or textbox
                 if (event.button == MouseButton.SECONDARY) {
                     println("Secondary")
-                    pane.children.add(ActionTextBox(event.x, event.y, 500.0, 200.0, pane.children.count().toString(), TextBoxType.WRITE, PublishAction.PRINTLN))
+                    pane.children.add(ActionToggleButton(event.x, event.y, 100.0, 100.0, pane.children.count().toString(), PublishAction.PRINT, showValueAsText = true))
                 } else {
-                    pane.children.add(ActionButton(event.x, event.y, 100.0, 100.0, pane.children.count().toString(), ButtonType.TOGGLE, PublishAction.PRINTLN, true, true, showValueAsText = true))
+                    pane.children.add(ActionButton(event.x, event.y, 100.0, 100.0, pane.children.count().toString(), ButtonType.SET, PublishAction.PRINT, 0, 1, showValueAsText = true))
                 }
             }
         }
@@ -53,11 +53,15 @@ class SavableTab(text: String = ":)", style: String = "", childrenArray: ArrayLi
             when (node.nodeType) {
                 NodeType.BUTTON -> {
                     val d: SavedActionButton = jsonMapper.readValue(data)
-                    pane.children.add(ActionButton(d.x, d.y, d.width, d.height, d.text, d.buttonType, d.publishAction, d.defaultValue, d.actionValue, d.style, d.showValueAsText))
+                    pane.children.add(ActionButton(d.x, d.y, d.width, d.height, d.text, d.buttonType, d.publishAction, d.defaultValue, d.actionValue, d.style, d.showValueAsText, d.entryKey))
                 }
                 NodeType.TEXTBOX -> {
                     val d: SavedTextBox = jsonMapper.readValue(data)
                     pane.children.add(ActionTextBox(d.x, d.y, d.width, d.height, d.text, d.textBoxType, d.publishAction, d.style))
+                }
+                NodeType.TOGGLEBUTTON -> {
+                    val d: SavedActionToggleButton = jsonMapper.readValue(data)
+                    pane.children.add(ActionToggleButton(d.x, d.y, d.width, d.height, d.text, d.publishAction, d.defaultValue, d.style, d.showValueAsText, d.entryKey))
                 }
             }
         }
