@@ -38,6 +38,7 @@ open class NodeSettingsPanel(val node: Control): VBox(10.0) {
     val labelList = listOf(fontSizeSliderLabel, textInputLabel, styleInputHyperlink)
 
     init {
+        this.setMinSize(1.0, 500.0)
         for (label in labelList) {
             label.contentDisplay = ContentDisplay.BOTTOM
         }
@@ -84,6 +85,24 @@ open class NodeSettingsPanel(val node: Control): VBox(10.0) {
 
         newList.add(this.first())
         this.remove(this.first())
+
+        newList.addAll(elements)
+        this.forEach {
+            newList.add(it)
+        }
+
+        this.clear()
+        this.addAll(newList)
+    }
+    fun ObservableList<Node>.addAt(place: Int, vararg elements: Node) {
+        val newList: ArrayList<Node> = ArrayList()
+        var i = 0
+
+        while (i < place) {
+            newList.add(this.first())
+            this.remove(this.first())
+            i += 1
+        }
 
         newList.addAll(elements)
         this.forEach {

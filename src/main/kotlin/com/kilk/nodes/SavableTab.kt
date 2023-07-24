@@ -2,6 +2,8 @@ package com.kilk.nodes
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.kilk.TabDeck.editMode
+import com.kilk.panels.RightClickMenu
+import com.kilk.panels.TabSettingsPanel
 import javafx.scene.control.Tab
 import javafx.scene.input.MouseButton
 import javafx.scene.layout.Pane
@@ -11,6 +13,9 @@ class SavableTab(text: String = ":)", style: String = "", childrenArray: ArrayLi
     val pane = Pane() //creates the pane, this will be the class with all the nodes on it
     val screenBounds = Screen.getPrimary().visualBounds
     init {
+        if (this.style == null) {
+            this.style = ""
+        }
         //set the tab content to the pane
         content = pane
         isClosable = editMode
@@ -34,6 +39,7 @@ class SavableTab(text: String = ":)", style: String = "", childrenArray: ArrayLi
             //creates and adds children nodes if constructed with them
             loadChildren(childrenArray)
         }
+        this.contextMenu = RightClickMenu(this, TabSettingsPanel(this))
     }
     override fun getJson(): String {
         println("in $this getJson() function")

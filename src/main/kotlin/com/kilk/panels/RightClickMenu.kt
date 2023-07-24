@@ -4,7 +4,7 @@ import javafx.scene.Node
 import javafx.scene.control.*
 import javafx.scene.layout.Pane
 
-class RightClickPanel(node: Node, content: Node): ContextMenu() {
+class RightClickMenu(node: Any, content: Node): ContextMenu() {
     //creates a "dialog window"
     val settingsWindow = Dialog<String>()
 
@@ -19,10 +19,15 @@ class RightClickPanel(node: Node, content: Node): ContextMenu() {
         }
         //set action to remove this button from the parent Pane
         deleteItem.setOnAction {
-            if (node.parent is Pane) {
-                (node.parent as Pane).children.remove(node)
+            if (node is Node) {
+                if (node.parent is Pane) {
+                    (node.parent as Pane).children.remove(node)
+                }
+            } else if (node is Tab) {
+                node.tabPane.tabs.remove(node)
             }
         }
+
         //adding the MenuItems to the right click menu
         this.items.addAll(settingsItem, deleteItem)
 
@@ -33,6 +38,4 @@ class RightClickPanel(node: Node, content: Node): ContextMenu() {
         //sets the content of the dialog window
         settingsWindow.dialogPane.content = content
     }
-
-
 }

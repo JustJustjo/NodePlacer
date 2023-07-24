@@ -1,7 +1,8 @@
 package com.kilk.nodes
 
 data class SavedTabDeck (
-    val tabs: ArrayList<String>?
+    val tabs: ArrayList<String>?,
+    val style: String
 )
 data class SavedTab (
     val text: String,

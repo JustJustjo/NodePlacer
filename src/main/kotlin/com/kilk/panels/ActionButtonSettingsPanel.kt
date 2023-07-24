@@ -3,6 +3,7 @@ package com.kilk.panels
 import com.kilk.nodes.ActionButton
 import com.kilk.nodes.BetterToggleButton
 import com.kilk.nodes.ButtonType
+import com.kilk.nodes.PublishAction
 import javafx.scene.control.*
 
 class ActionButtonSettingsPanel(button: ActionButton): NodeSettingsPanel(button) {
@@ -13,9 +14,14 @@ class ActionButtonSettingsPanel(button: ActionButton): NodeSettingsPanel(button)
     val defaultValueLabel = Label("Default Value:", defaultValueInput)
     val actionValueInput = TextField(button.actionValue.toString())
     val actionValueLabel = Label("Action Value:", actionValueInput)
+    val ntKeyInput = TextField(button.entryKey)
+    val ntKeyLabel = Label("NetworkTable Entry:", ntKeyInput)
 
     init {
 
+        if (publishActionDropdown.value == PublishAction.NETWORKTABLES) {
+            this.children.add(ntKeyLabel)
+        }
         textInputLabel.isDisable = button.showValueAsText
         textInput.text = button.text
         textInput.setOnKeyTyped {
@@ -24,6 +30,18 @@ class ActionButtonSettingsPanel(button: ActionButton): NodeSettingsPanel(button)
         publishActionDropdown.value = button.publishAction
         publishActionDropdown.setOnAction {
             button.publishAction = publishActionDropdown.value
+            if (publishActionDropdown.value == PublishAction.NETWORKTABLES) {
+                println(this.children.indexOf(publishActionDropdown))
+                this.children.addAt(2, ntKeyLabel)
+            } else {
+                this.children.remove(ntKeyLabel)
+            }
+        }
+        ntKeyLabel.contentDisplay = ContentDisplay.BOTTOM
+        ntKeyInput.promptText = "table/entry"
+        ntKeyInput.text = button.entryKey
+        ntKeyInput.setOnKeyTyped {
+            button.entryKey = ntKeyInput.text
         }
 
         defaultValueLabel.contentDisplay = ContentDisplay.BOTTOM
@@ -72,7 +90,6 @@ class ActionButtonSettingsPanel(button: ActionButton): NodeSettingsPanel(button)
             textInputLabel.isDisable = button.showValueAsText
             textInput.text = button.text
         }
-
 
         children.addSecond(actionValueLabel, defaultValueLabel, valueAsTextButton)
         children.addFirst(buttonTypeLabel)

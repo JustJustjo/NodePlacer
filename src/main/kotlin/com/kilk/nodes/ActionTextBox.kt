@@ -2,7 +2,7 @@ package com.kilk.nodes
 
 import com.kilk.TabDeck.editMode
 import com.kilk.panels.ActionTextBoxSettingsPanel
-import com.kilk.panels.RightClickPanel
+import com.kilk.panels.RightClickMenu
 import javafx.scene.Cursor
 import javafx.scene.control.TextField
 import javafx.scene.input.MouseButton
@@ -33,7 +33,7 @@ class ActionTextBox(x: Double, y: Double, width: Double, height: Double, text: S
 
         changeTextBoxAction(this.textBoxType)
         //sets the context menu to rightClickMenu (whenever this button gets right-clicked it will show up)
-        this.contextMenu = RightClickPanel(this, ActionTextBoxSettingsPanel(this))
+        this.contextMenu = RightClickMenu(this, ActionTextBoxSettingsPanel(this))
     }
 
 

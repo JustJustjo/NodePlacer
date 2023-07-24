@@ -28,9 +28,26 @@ object TabDeck: VBox(), Savable {
     val screenWidth = Screen.getPrimary().visualBounds.width
     val screenHeight = Screen.getPrimary().visualBounds.height
 
+    var tabHeight = 100.0
+        set(value) {
+            tabPane.style = tabPane.style.replace("-fx-tab-min-height: $field; -fx-tab-max-height: $field;", "-fx-tab-min-height: $value; -fx-tab-max-height: $value;")
+            println(tabPane.style)
+            field = value
+        }
+    var tabWidth = 100.0
+        set(value) {
+            tabPane.style = tabPane.style.replace("-fx-tab-min-width: $field; -fx-tab-max-width: $field;", "-fx-tab-min-width: $value; -fx-tab-max-width: $value;")
+            println(tabPane.style)
+            field = value
+        }
+
     init {
         println("TabDeck says hi")
         TabDeck.children.addAll(MenuDeck, tabPane)
+
+        if (!tabPane.style.contains("-fx-tab-min-width:")) {
+            tabPane.style += "-fx-tab-min-width: $tabWidth; -fx-tab-max-width: $tabWidth; -fx-tab-min-height: $tabHeight; -fx-tab-max-height: $tabHeight;"
+        }
 
         //little dance of removing/adding tabs to make the addTab work the way I want
         addTab.setOnSelectionChanged {
@@ -46,7 +63,7 @@ object TabDeck: VBox(), Savable {
         //setting tab width/height, in the future I would like to be able to change this value
         tabPane.tabMinHeight = screenHeight/30.0
         tabPane.tabMinWidth = screenWidth/20.0
-        tabPane.style = "-fx-background-color: black"
+        tabPane.style += "-fx-background-color: black"
         tabPane.setPrefSize(screenWidth, screenHeight)
         //if there are no tabs, create a new blank tab
         if (tabs.isEmpty()) {
@@ -62,7 +79,12 @@ object TabDeck: VBox(), Savable {
         val tabStringArray: ArrayList<String> = ArrayList()
         tabs.forEach { if (it is Savable) { tabStringArray.add(it.getJson()) } else { println("$it does not inherit from Savable") } }
 
-        return jsonMapper.writeValueAsString(SavedTabDeck(tabStringArray))
+        return jsonMapper.writeValueAsString(SavedTabDeck(tabStringArray, tabPane.style))
+    }
+    fun loadJson(file: String) {
+        val savedTabDeck: SavedTabDeck = TabDeck.jsonMapper.readValue(file)
+        tabPane.style = savedTabDeck.style
+        loadChildren(savedTabDeck.tabs)
     }
     override fun loadChildren(childrenArray: ArrayList<String>?) {
         childrenArray?.forEach {

@@ -3,7 +3,7 @@ package com.kilk.nodes
 import com.kilk.NTClient
 import com.kilk.TabDeck.editMode
 import com.kilk.panels.ActionButtonSettingsPanel
-import com.kilk.panels.RightClickPanel
+import com.kilk.panels.RightClickMenu
 import javafx.scene.Cursor
 import javafx.scene.control.*
 import javafx.scene.input.MouseButton
@@ -40,7 +40,7 @@ class ActionButton(x: Double, y: Double, width: Double, height: Double, text: St
 
         setButtonAction(this.buttonType)
         //sets the context menu to rightClickMenu (whenever this button gets right-clicked it will show up)
-        this.contextMenu = RightClickPanel(this, ActionButtonSettingsPanel(this))
+        this.contextMenu = RightClickMenu(this, ActionButtonSettingsPanel(this))
     }
 
     fun setButtonAction(buttonType: ButtonType) {

@@ -3,7 +3,7 @@ package com.kilk.nodes
 import com.kilk.NTClient
 import com.kilk.TabDeck
 import com.kilk.panels.ActionToggleButtonSettings
-import com.kilk.panels.RightClickPanel
+import com.kilk.panels.RightClickMenu
 import javafx.scene.Cursor
 import javafx.scene.control.Button
 import javafx.scene.input.MouseButton
@@ -45,7 +45,7 @@ class ActionToggleButton(x: Double, y: Double, width: Double, height: Double, te
         }
         setEditActions()
         //sets the context menu to rightClickMenu (whenever this button gets right-clicked it will show up)
-        this.contextMenu = RightClickPanel(this, ActionToggleButtonSettings(this))
+        this.contextMenu = RightClickMenu(this, ActionToggleButtonSettings(this))
     }
 
     //adds the relocating and resizing to the button
