@@ -8,7 +8,7 @@ import javafx.scene.Cursor
 import javafx.scene.control.Button
 import javafx.scene.input.MouseButton
 
-class ActionToggleButton(x: Double, y: Double, width: Double, height: Double, text: String, var publishAction: PublishAction, defaultValue: Boolean = false, style: String = "", var showValueAsText: Boolean = false, var entryKey: String? = null): Button(text), Savable {
+class ActionToggleButton(x: Double?, y: Double?, width: Double, height: Double, text: String, var publishAction: PublishAction = PublishAction.PRINT, defaultValue: Boolean = false, style: String = "", var showValueAsText: Boolean = false, var entryKey: String? = null): Button(text), Savable {
     var defaultValue: Boolean = defaultValue
         set(value) {
             this.value = value
@@ -31,8 +31,10 @@ class ActionToggleButton(x: Double, y: Double, width: Double, height: Double, te
     private var pressedLocation = Pair(0.0, 0.0)
 
     init {
-        this.translateX = x
-        this.translateY = y
+        if (x != null && y != null) {
+            this.translateX = x
+            this.translateY = y
+        }
         this.minWidth = width
         this.minHeight = height
         this.style = style

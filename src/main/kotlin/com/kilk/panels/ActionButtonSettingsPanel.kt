@@ -39,7 +39,6 @@ class ActionButtonSettingsPanel(button: ActionButton): NodeSettingsPanel(button)
         }
         ntKeyLabel.contentDisplay = ContentDisplay.BOTTOM
         ntKeyInput.promptText = "table/entry"
-        ntKeyInput.text = button.entryKey
         ntKeyInput.setOnKeyTyped {
             button.entryKey = ntKeyInput.text
         }

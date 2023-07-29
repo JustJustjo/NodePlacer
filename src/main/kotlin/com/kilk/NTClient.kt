@@ -66,7 +66,7 @@ object NTClient {
                     if (!ntInstance.isConnected) { //QUARTER!!!!!
                         reconnected = false
                         quarterCount += 1
-                        println("Quarter count: $quarterCount")
+//                        println("Quarter count: $quarterCount")
                     } else {
                         secondConnect()
                     }

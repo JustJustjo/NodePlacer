@@ -21,6 +21,7 @@ object TabDeck: VBox(), Savable {
             }
             tabs.forEach { it.isClosable = value }
             field = value
+            NodeSplitPane.updateSplitPane()
         }
     var gridSize: Int = 10
     val borderWidth: String = " 10 10 10 10"

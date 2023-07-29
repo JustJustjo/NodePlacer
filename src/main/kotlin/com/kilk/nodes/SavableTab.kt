@@ -29,7 +29,8 @@ class SavableTab(text: String = ":)", style: String = "", childrenArray: ArrayLi
                 //later this wil give tab options on right click, but right now it creates a button or textbox
                 if (event.button == MouseButton.SECONDARY) {
                     println("Secondary")
-                    pane.children.add(ActionToggleButton(event.x, event.y, 100.0, 100.0, pane.children.count().toString(), PublishAction.PRINT, showValueAsText = true))
+                    pane.children.add(ActionTextBox(event.x, event.y, 100.0, 100.0, pane.children.count().toString()))
+//                    pane.children.add(ActionToggleButton(event.x, event.y, 100.0, 100.0, pane.children.count().toString(), PublishAction.PRINT, showValueAsText = true))
                 } else {
                     pane.children.add(ActionButton(event.x, event.y, 100.0, 100.0, pane.children.count().toString(), ButtonType.SET, PublishAction.PRINT, 0, 1, showValueAsText = true))
                 }

@@ -8,7 +8,7 @@ import javafx.scene.Cursor
 import javafx.scene.control.*
 import javafx.scene.input.MouseButton
 
-class ActionButton(x: Double, y: Double, width: Double, height: Double, text: String, var buttonType: ButtonType, var publishAction: PublishAction, defaultValue: Any, var actionValue: Any, style: String = "", var showValueAsText: Boolean = false, var entryKey: String? = null): Button(text), Savable {
+class ActionButton(x: Double?, y: Double?, width: Double, height: Double, text: String, var buttonType: ButtonType = ButtonType.ADD, var publishAction: PublishAction = PublishAction.PRINT, defaultValue: Any = 0, var actionValue: Any = 1, style: String = "", var showValueAsText: Boolean = false, var entryKey: String? = null): Button(text), Savable {
     var defaultValue: Any = defaultValue
         set(value) {
             this.value = value
@@ -31,8 +31,10 @@ class ActionButton(x: Double, y: Double, width: Double, height: Double, text: St
     private var pressedLocation = Pair(0.0, 0.0)
 
     init {
-        this.translateX = x
-        this.translateY = y
+        if (x != null && y != null) {
+            this.translateX = x
+            this.translateY = y
+        }
         this.minWidth = width
         this.minHeight = height
         this.style = style
