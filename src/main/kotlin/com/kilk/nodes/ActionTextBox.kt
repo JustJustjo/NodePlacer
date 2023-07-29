@@ -28,7 +28,6 @@ class ActionTextBox(x: Double?, y: Double?, width: Double, height: Double, text:
                     NTClient.ntInstance.getEntry(entryKey).setValue(value)
                 }
             }
-            this.text = value
             field = value
         }
     var listenerID: Int? = null
@@ -95,7 +94,7 @@ class ActionTextBox(x: Double?, y: Double?, width: Double, height: Double, text:
 
     }
 
-    fun changeTextBoxAction(textBoxType: TextBoxType) {
+    fun changeTextBoxAction(textBoxType: TextBoxType = this.textBoxType) {
         when (textBoxType) {
             TextBoxType.WRITE -> setWriteAction()
             TextBoxType.READ -> setReadAction()
@@ -105,9 +104,11 @@ class ActionTextBox(x: Double?, y: Double?, width: Double, height: Double, text:
     //what it will do to the value when reading
     private fun setWriteAction() {
         this.isEditable = true
-        this.setOnAction {
+        this.setOnKeyTyped {
             if (!editMode) {
-                value = this.text
+                Platform.runLater {
+                    value = this.text
+                }
             }
         }
         updateTextBoxNTListener()
@@ -115,7 +116,7 @@ class ActionTextBox(x: Double?, y: Double?, width: Double, height: Double, text:
     //set to do nothing when clicked
     private fun setReadAction() {
         this.isEditable = false
-        this.setOnAction {}
+        this.setOnKeyTyped {}
         this.setOnMouseMoved {}
         updateTextBoxNTListener()
     }
@@ -128,7 +129,7 @@ class ActionTextBox(x: Double?, y: Double?, width: Double, height: Double, text:
             if (entryKey != null) {
                 val listener = NTClient.ntInstance.addListener( //add listener that checks if the value get updated (uses 100% of a single cpu core so kinda inefficient)
                     NTClient.ntInstance.getEntry(entryKey),
-                    EnumSet.of(NetworkTableEvent.Kind.kValueAll, NetworkTableEvent.Kind.kConnected)
+                    EnumSet.of(if (this.textBoxType == TextBoxType.WRITE) NetworkTableEvent.Kind.kValueRemote else NetworkTableEvent.Kind.kValueAll, NetworkTableEvent.Kind.kConnected)
                 ) {
                     this.listenerID = it.listener
                     Platform.runLater { //this Platform.runLater fixes multiple weird java thread errors
