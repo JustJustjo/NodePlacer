@@ -11,7 +11,7 @@ import javafx.scene.control.TextField
 import javafx.scene.input.MouseButton
 import java.util.*
 
-class ActionTextBox(x: Double?, y: Double?, width: Double, height: Double, text: String, var textBoxType: TextBoxType = TextBoxType.READ, var publishAction: PublishAction = PublishAction.PRINT, style: String = "", var entryKey: String? = null): TextField(text), Savable {
+class ActionTextBox(x: Double?, y: Double?, width: Double, height: Double, text: String, var textBoxType: TextBoxType = TextBoxType.READ, var publishAction: PublishAction = PublishAction.PRINT, style: String = "", var entryKey: String? = null, val isDisplay: Boolean = false): TextField(text), Savable {
     var value: String = text
         get() {
             if (publishAction == PublishAction.NETWORKTABLES) {
@@ -99,7 +99,9 @@ class ActionTextBox(x: Double?, y: Double?, width: Double, height: Double, text:
             TextBoxType.WRITE -> setWriteAction()
             TextBoxType.READ -> setReadAction()
         }
-        setEditActions()
+        if (!isDisplay) {
+            setEditActions()
+        }
     }
     //what it will do to the value when reading
     private fun setWriteAction() {

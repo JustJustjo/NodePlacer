@@ -8,7 +8,7 @@ import javafx.scene.Cursor
 import javafx.scene.control.*
 import javafx.scene.input.MouseButton
 
-class ActionButton(x: Double?, y: Double?, width: Double, height: Double, text: String, var buttonType: ButtonType = ButtonType.ADD, var publishAction: PublishAction = PublishAction.PRINT, defaultValue: Any = 0, var actionValue: Any = 1, style: String = "", var showValueAsText: Boolean = false, var entryKey: String? = null): Button(text), Savable {
+class ActionButton(x: Double?, y: Double?, width: Double, height: Double, text: String, var buttonType: ButtonType = ButtonType.ADD, var publishAction: PublishAction = PublishAction.PRINT, defaultValue: Any = 0, var actionValue: Any = 1, style: String = "", var showValueAsText: Boolean = false, var entryKey: String? = null, val isDisplay: Boolean = false): Button(text), Savable {
     var defaultValue: Any = defaultValue
         set(value) {
             this.value = value
@@ -38,7 +38,9 @@ class ActionButton(x: Double?, y: Double?, width: Double, height: Double, text: 
         this.minWidth = width
         this.minHeight = height
         this.style = style
-        this.text = value.toString()
+        if (showValueAsText) {
+            this.text = value.toString()
+        }
 
         setButtonAction(this.buttonType)
         //sets the context menu to rightClickMenu (whenever this button gets right-clicked it will show up)
@@ -52,7 +54,9 @@ class ActionButton(x: Double?, y: Double?, width: Double, height: Double, text: 
             ButtonType.ADD -> setAddAction()
             ButtonType.SUBTRACT -> setSubtractAction()
         }
-        setEditActions()
+        if (!isDisplay) {
+            setEditActions()
+        }
     }
     private fun setSetAction() {
         this.setOnAction {

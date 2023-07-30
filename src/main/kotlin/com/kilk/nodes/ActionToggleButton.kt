@@ -8,7 +8,7 @@ import javafx.scene.Cursor
 import javafx.scene.control.Button
 import javafx.scene.input.MouseButton
 
-class ActionToggleButton(x: Double?, y: Double?, width: Double, height: Double, text: String, var publishAction: PublishAction = PublishAction.PRINT, defaultValue: Boolean = false, style: String = "", var showValueAsText: Boolean = false, var entryKey: String? = null): Button(text), Savable {
+class ActionToggleButton(x: Double?, y: Double?, width: Double, height: Double, text: String, var publishAction: PublishAction = PublishAction.PRINT, defaultValue: Boolean = false, style: String = "", var showValueAsText: Boolean = false, var entryKey: String? = null, val isDisplay: Boolean = false): Button(text), Savable {
     var defaultValue: Boolean = defaultValue
         set(value) {
             this.value = value
@@ -38,14 +38,18 @@ class ActionToggleButton(x: Double?, y: Double?, width: Double, height: Double, 
         this.minWidth = width
         this.minHeight = height
         this.style = style
-        this.text = value.toString()
+        if (showValueAsText) {
+            this.text = value.toString()
+        }
 
         this.setOnAction {
             if (!TabDeck.editMode) {
                 value = !(value)
             }
         }
-        setEditActions()
+        if (!isDisplay) {
+            setEditActions()
+        }
         //sets the context menu to rightClickMenu (whenever this button gets right-clicked it will show up)
         this.contextMenu = RightClickMenu(this, ActionToggleButtonSettings(this))
     }
