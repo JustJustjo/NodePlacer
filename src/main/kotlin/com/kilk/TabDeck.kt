@@ -65,7 +65,7 @@ object TabDeck: VBox(), Savable {
         tabPane.tabMinHeight = screenHeight/30.0
         tabPane.tabMinWidth = screenWidth/20.0
         tabPane.style += "-fx-background-color: black"
-        tabPane.setPrefSize(screenWidth, screenHeight)
+        tabPane.setPrefSize(10000.0, 10000.0)
         //if there are no tabs, create a new blank tab
         if (tabs.isEmpty()) {
             tabs.add(SavableTab())

@@ -15,6 +15,12 @@ class ActionTextBoxSettingsPanel(textBox: ActionTextBox): NodeSettingsPanel(text
     val textBoxTypeLabel = Label("TextBox Type:", textBoxTypeDropdown)
 
     init {
+        this.children.remove(textInputLabel)
+        if (textBox.textBoxType == TextBoxType.READ) {
+            this.publishActionLabel.text = "Read From:"
+        } else {
+            this.publishActionLabel.text = "Publish To / Read From:"
+        }
         publishActionDropdown.value = textBox.publishAction
         if (publishActionDropdown.value == PublishAction.NETWORKTABLES) {
             this.children.add(ntKeyLabel)
@@ -45,6 +51,11 @@ class ActionTextBoxSettingsPanel(textBox: ActionTextBox): NodeSettingsPanel(text
             textBox.textBoxType = textBoxTypeDropdown.value
             textBox.changeTextBoxAction()
             textBox.updateTextBoxNTListener()
+            if (textBox.textBoxType == TextBoxType.READ) {
+                this.publishActionLabel.text = "Read From:"
+            } else {
+                this.publishActionLabel.text = "Publish To / Read From:"
+            }
             println(textBox.textBoxType)
         }
         children.addFirst(textBoxTypeLabel)

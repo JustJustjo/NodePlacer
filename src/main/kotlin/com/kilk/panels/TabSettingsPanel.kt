@@ -12,7 +12,9 @@ class TabSettingsPanel(val tab: Tab): VBox(10.0) {
     val textInput = TextField(tab.text)
     val textLabel = Label("Text:", textInput)
     val styleInput = TextArea(tab.style)
-    val styleLabel = Hyperlink("CSS Style:")
+    val styleLabel = Hyperlink("Tab CSS Style:")
+    val tabDeckStyleInput = TextArea(TabDeck.tabPane.style)
+    val tabDeckStyleLabel = Label("TabPane Style:", tabDeckStyleInput)
     val fontSizeSlider = Slider(15.0, 400.0, 15.0)
     val fontSizeSliderLabel = Label("Text Size:", fontSizeSlider)
     val tabHeightSlider = Slider(30.0, 400.0, TabDeck.tabHeight)
@@ -42,6 +44,12 @@ class TabSettingsPanel(val tab: Tab): VBox(10.0) {
         styleInput.setOnKeyTyped {
             tab.style = styleInput.text
         }
+        tabDeckStyleLabel.contentDisplay = ContentDisplay.BOTTOM
+        tabDeckStyleInput.isWrapText = true
+        tabDeckStyleInput.setPrefSize(500.0, 60.0)
+        tabDeckStyleInput.setOnKeyTyped {
+            TabDeck.tabPane.style = tabDeckStyleInput.text
+        }
         fontSizeSliderLabel.contentDisplay = ContentDisplay.BOTTOM
         fontSizeSlider.setOnMouseDragged {
             textSize = fontSizeSlider.value.roundToInt()
@@ -53,14 +61,15 @@ class TabSettingsPanel(val tab: Tab): VBox(10.0) {
         tabHeightLabel.contentDisplay = ContentDisplay.BOTTOM
         tabHeightSlider.setOnMouseDragged {
             TabDeck.tabHeight = tabHeightSlider.value
-            println(tabHeightSlider.value)
+            tabDeckStyleInput.text = TabDeck.tabPane.style
         }
         tabWidthLabel.contentDisplay = ContentDisplay.BOTTOM
         tabWidthSlider.setOnMouseDragged {
             TabDeck.tabWidth = tabWidthSlider.value
+            tabDeckStyleInput.text = TabDeck.tabPane.style
         }
 
         this.alignment = Pos.CENTER
-        this.children.addAll(textLabel, fontSizeSliderLabel, tabHeightLabel, tabWidthLabel, styleLabel, styleInput)
+        this.children.addAll(textLabel, fontSizeSliderLabel, tabHeightLabel, tabWidthLabel, styleLabel, styleInput, tabDeckStyleLabel)
     }
 }

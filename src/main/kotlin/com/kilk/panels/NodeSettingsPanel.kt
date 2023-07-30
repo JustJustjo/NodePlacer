@@ -23,7 +23,7 @@ open class NodeSettingsPanel(val node: Control): VBox(10.0) {
     val fontSizeSliderLabel = Label("Text Size:", fontSizeSlider)
     //publish dropdown
     val publishActionDropdown = ComboBox<PublishAction>()
-    val publishActionLabel = Label("Publish Type:", publishActionDropdown)
+    val publishActionLabel = Label("Publish To:", publishActionDropdown)
 
 
 

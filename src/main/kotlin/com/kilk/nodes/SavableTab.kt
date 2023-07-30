@@ -11,7 +11,6 @@ import javafx.stage.Screen
 
 class SavableTab(text: String = ":)", style: String = "", childrenArray: ArrayList<String>? = null): Tab(text), Savable {
     val pane = Pane() //creates the pane, this will be the class with all the nodes on it
-    val screenBounds = Screen.getPrimary().visualBounds
     init {
         if (this.style == null) {
             this.style = ""
@@ -20,7 +19,7 @@ class SavableTab(text: String = ":)", style: String = "", childrenArray: ArrayLi
         content = pane
         isClosable = editMode
         //set the pane size to screen size
-        pane.setPrefSize(screenBounds.width, screenBounds.height)
+        pane.setPrefSize(10000.0, 10000.0)
         //setting the style of pane
         pane.style = style
 

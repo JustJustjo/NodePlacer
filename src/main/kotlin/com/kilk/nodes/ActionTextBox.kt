@@ -47,7 +47,7 @@ class ActionTextBox(x: Double?, y: Double?, width: Double, height: Double, text:
         this.style = style
 
         changeTextBoxAction(this.textBoxType)
-        //sets the context menu to rightClickMenu (whenever this button gets right-clicked it will show up)
+        //sets the context menu (whenever this button gets right-clicked it will show up)
         this.contextMenu = RightClickMenu(this, ActionTextBoxSettingsPanel(this))
     }
 

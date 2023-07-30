@@ -7,6 +7,7 @@ import javafx.scene.control.SplitPane
 
 object NodeSplitPane: SplitPane() {
     init {
+        this.setDividerPositions(0.75)
         updateSplitPane()
     }
     fun updateSplitPane() {
@@ -16,5 +17,6 @@ object NodeSplitPane: SplitPane() {
         } else {
             this.items.addAll(TabDeck)
         }
+        this.setDividerPositions(0.75)
     }
 }

@@ -12,7 +12,7 @@ import javafx.scene.input.KeyCombination
 object MenuDeck: MenuBar() {
     val fileMenu = Menu("File")
 
-    val saveItem = MenuItem("Save")
+    val saveItem = MenuItem("Save As...")
     val loadItem = MenuItem("Load")
     val editItem = CheckMenuItem("Edit Mode")
     init {
