@@ -1,12 +1,18 @@
 package com.kilk
 
+import com.kilk.nodes.*
 import javafx.stage.FileChooser
 
 object NodeSaver {
     val fileChooser = FileChooser()
+    val savedNodeList: HashMap<String, Any> = HashMap()
 
     init {
         fileChooser.extensionFilters.add(FileChooser.ExtensionFilter("NodePlacer files", "*.json"))
+
+        savedNodeList["ActionButton"]        = ActionButton::class.java
+        savedNodeList["ActionToggleButton"]  = ActionToggleButton::class.java
+        savedNodeList["ActionTextBox"]       = ActionTextBox::class.java
     }
 
     fun saveNodes() {

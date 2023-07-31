@@ -1,13 +1,13 @@
 package com.kilk.nodes
 
 import com.fasterxml.jackson.module.kotlin.readValue
+import com.kilk.NodeSaver
 import com.kilk.TabDeck.editMode
 import com.kilk.panels.RightClickMenu
 import com.kilk.panels.TabSettingsPanel
 import javafx.scene.control.Tab
 import javafx.scene.input.MouseButton
 import javafx.scene.layout.Pane
-import javafx.stage.Screen
 
 class SavableTab(text: String = ":)", style: String = "", childrenArray: ArrayList<String>? = null): Tab(text), Savable {
     val pane = Pane() //creates the pane, this will be the class with all the nodes on it
@@ -54,22 +54,25 @@ class SavableTab(text: String = ":)", style: String = "", childrenArray: ArrayLi
     override fun loadChildren(childrenArray: ArrayList<String>?) {
         childrenArray?.forEach {
             val node: SavedNode = jsonMapper.readValue(it)
+            val nodeName = node.nodeName
+            val nodeClass = NodeSaver.savedNodeList[nodeName]
             val data = node.data
 
-            when (node.nodeType) {
-                NodeType.BUTTON -> {
-                    val d: SavedActionButton = jsonMapper.readValue(data)
-                    pane.children.add(ActionButton(d.x, d.y, d.width, d.height, d.text, d.buttonType, d.publishAction, d.defaultValue, d.actionValue, d.style, d.showValueAsText, d.entryKey))
-                }
-                NodeType.TEXTBOX -> {
-                    val d: SavedTextBox = jsonMapper.readValue(data)
-                    pane.children.add(ActionTextBox(d.x, d.y, d.width, d.height, d.text, d.textBoxType, d.publishAction, d.style))
-                }
-                NodeType.TOGGLEBUTTON -> {
-                    val d: SavedActionToggleButton = jsonMapper.readValue(data)
-                    pane.children.add(ActionToggleButton(d.x, d.y, d.width, d.height, d.text, d.publishAction, d.defaultValue, d.style, d.showValueAsText, d.entryKey))
-                }
+
+            when (nodeClass) {
+                is ActionButton -> pane.children.add(nodeClass.createSelf(data))
+                is ActionToggleButton -> pane.children.add(nodeClass.createSelf(data))
+                is ActionTextBox -> pane.children.add(nodeClass.createSelf(data))
+                else -> {println("nodeClass $nodeClass could not be loaded")}
             }
+
+//            if (nodeClass != null) {
+//                if (nodeClass is Savable) {
+//                    pane.children.add(nodeClass.createSelf(data))
+//                } else {
+//                    println("error loading Savable class ${nodeClass}")
+//                }
+//            }
         }
     }
 }

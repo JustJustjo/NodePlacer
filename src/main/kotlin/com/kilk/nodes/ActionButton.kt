@@ -1,5 +1,6 @@
 package com.kilk.nodes
 
+import com.fasterxml.jackson.module.kotlin.readValue
 import com.kilk.NTClient
 import com.kilk.TabDeck.editMode
 import com.kilk.panels.ActionButtonSettingsPanel
@@ -127,10 +128,28 @@ class ActionButton(x: Double?, y: Double?, width: Double, height: Double, text: 
             pressedLocation = Pair(it.x, it.y)
         }
     }
+    override fun createSelf(data: String): ActionButton {
+        val b: SavedActionButton = jsonMapper.readValue(data)
+        return ActionButton(b.x, b.y, b.width, b.height, b.text, b.buttonType, b.publishAction, b.defaultValue, b.actionValue, b.style, b.showValueAsText, b.entryKey)
+    }
 
     override fun getJson(): String {
         println("in $this getJson() function")
         val data = jsonMapper.writeValueAsString(SavedActionButton(translateX, translateY, width, height, text, buttonType, publishAction, defaultValue, actionValue, style, showValueAsText, entryKey))
-        return jsonMapper.writeValueAsString(SavedNode(NodeType.BUTTON, data))
+        return jsonMapper.writeValueAsString(SavedNode("ActionButton", data))
     }
+    data class SavedActionButton (
+        val x: Double,
+        val y: Double,
+        val width: Double,
+        val height: Double,
+        val text: String,
+        val buttonType: ButtonType,
+        val publishAction: PublishAction,
+        val defaultValue: Any,
+        val actionValue: Any,
+        val style: String,
+        val showValueAsText: Boolean,
+        val entryKey: String?
+    )
 }
