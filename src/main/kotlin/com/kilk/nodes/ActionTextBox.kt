@@ -1,6 +1,5 @@
 package com.kilk.nodes
 
-import com.fasterxml.jackson.module.kotlin.readValue
 import com.kilk.NTClient
 import com.kilk.TabDeck.editMode
 import com.kilk.panels.ActionTextBoxSettingsPanel
@@ -146,14 +145,10 @@ class ActionTextBox(x: Double?, y: Double?, width: Double, height: Double, text:
             }
         }
     }
-    override fun createSelf(data: String): ActionTextBox {
-        val d: SavedTextBox = jsonMapper.readValue(data)
-        return ActionTextBox(d.x, d.y, d.width, d.height, d.text, d.textBoxType, d.publishAction, d.style)
 
-    }
     override fun getJson(): String {
         println("in $this getJson() function")
-        val data = jsonMapper.writeValueAsString(SavedTextBox(translateX, translateY, width, height, text, textBoxType, publishAction, style))
+        val data = jsonMapper.writeValueAsString(SavedTextBox(translateX, translateY, width, height, text, textBoxType, publishAction, style, entryKey))
         return jsonMapper.writeValueAsString(SavedNode("ActionTextBox", data))
     }
     data class SavedTextBox (
@@ -164,6 +159,7 @@ class ActionTextBox(x: Double?, y: Double?, width: Double, height: Double, text:
         val text: String,
         val textBoxType: TextBoxType,
         val publishAction: PublishAction,
-        val style: String
+        val style: String,
+        val entryKey: String?
     )
 }

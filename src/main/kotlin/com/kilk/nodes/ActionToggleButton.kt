@@ -1,6 +1,5 @@
 package com.kilk.nodes
 
-import com.fasterxml.jackson.module.kotlin.readValue
 import com.kilk.NTClient
 import com.kilk.TabDeck
 import com.kilk.panels.ActionToggleButtonSettings
@@ -90,10 +89,6 @@ class ActionToggleButton(x: Double?, y: Double?, width: Double, height: Double, 
         this.setOnMousePressed {
             pressedLocation = Pair(it.x, it.y)
         }
-    }
-    override fun createSelf(data: String): ActionToggleButton {
-        val d: SavedActionToggleButton = jsonMapper.readValue(data)
-        return ActionToggleButton(d.x, d.y, d.width, d.height, d.text, d.publishAction, d.defaultValue, d.style, d.showValueAsText, d.entryKey)
     }
 
     override fun getJson(): String {

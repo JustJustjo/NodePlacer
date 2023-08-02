@@ -1,13 +1,13 @@
 package com.kilk.nodes
 
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.kilk.NodeSaver
 import com.kilk.TabDeck.editMode
 import com.kilk.panels.RightClickMenu
 import com.kilk.panels.TabSettingsPanel
 import javafx.scene.control.Tab
 import javafx.scene.input.MouseButton
 import javafx.scene.layout.Pane
+import com.kilk.NodeSaver.returnNode
 
 class SavableTab(text: String = ":)", style: String = "", childrenArray: ArrayList<String>? = null): Tab(text), Savable {
     val pane = Pane() //creates the pane, this will be the class with all the nodes on it
@@ -55,24 +55,8 @@ class SavableTab(text: String = ":)", style: String = "", childrenArray: ArrayLi
         childrenArray?.forEach {
             val node: SavedNode = jsonMapper.readValue(it)
             val nodeName = node.nodeName
-            val nodeClass = NodeSaver.savedNodeList[nodeName]
             val data = node.data
-
-
-            when (nodeClass) {
-                is ActionButton -> pane.children.add(nodeClass.createSelf(data))
-                is ActionToggleButton -> pane.children.add(nodeClass.createSelf(data))
-                is ActionTextBox -> pane.children.add(nodeClass.createSelf(data))
-                else -> {println("nodeClass $nodeClass could not be loaded")}
-            }
-
-//            if (nodeClass != null) {
-//                if (nodeClass is Savable) {
-//                    pane.children.add(nodeClass.createSelf(data))
-//                } else {
-//                    println("error loading Savable class ${nodeClass}")
-//                }
-//            }
+            pane.children.add(returnNode(nodeName, data))
         }
     }
 }
