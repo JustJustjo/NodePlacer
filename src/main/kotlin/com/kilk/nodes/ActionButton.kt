@@ -38,12 +38,11 @@ class ActionButton(x: Double?, y: Double?, width: Double, height: Double, text: 
         this.maxWidth = width
         this.maxHeight = height
         if (this.isDisplay) {
-            println("I AM DISPLAYYYYYYYYYYYY")
             this.prefWidth = width
             this.prefHeight = height
         } else {
+            this.minWidth = width
             this.minHeight = height
-            this.minHeight = width
         }
         this.style = style
         if (showValueAsText) {
