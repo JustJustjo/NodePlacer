@@ -53,6 +53,6 @@ object NodeSaver {
     }
     fun createActionToggleButton(data: String): ActionToggleButton {
         val d: ActionToggleButton.SavedActionToggleButton = jsonMapper.readValue(data)
-        return ActionToggleButton(d.x, d.y, d.width, d.height, d.text, d.publishAction, d.defaultValue, d.style, d.showValueAsText, d.entryKey)
+        return ActionToggleButton(d.x, d.y, d.width, d.height, d.text, d.publishAction, d.defaultValue, d.tstyle, d.fstyle, d.showValueAsText, d.entryKey)
     }
 }

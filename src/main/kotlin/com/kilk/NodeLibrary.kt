@@ -9,8 +9,8 @@ import javafx.scene.text.Font
 
 object NodeLibrary: VBox(5.0) {
     val libraryTitle = Label("Node Library")
-    val actionButton = ActionButton(null, null, 150.0, 150.0, "Action Button", isDisplay = true)
-    val toggleButton = ActionToggleButton(null, null, 150.0, 150.0, "Toggle Button", isDisplay = true)
+    val actionButton = ActionButton(null, null, 150.0, 150.0, "Action Button", style = "-fx-background-color: darkred; -fx-text-fill: white", isDisplay = true)
+    val toggleButton = ActionToggleButton(null, null, 150.0, 150.0, "Toggle Button", tStyle = "-fx-background-color: firebrick; -fx-text-fill: white", fStyle = "-fx-background-color: firebrick; -fx-text-fill: white", isDisplay = true)
     val textBox = ActionTextBox(null, null, 150.0, 150.0, "Text Box", isDisplay = true)
 
     val nodeList = listOf<Savable>(actionButton, toggleButton, textBox)

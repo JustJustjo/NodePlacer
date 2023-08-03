@@ -8,7 +8,7 @@ import javafx.scene.Cursor
 import javafx.scene.control.Button
 import javafx.scene.input.MouseButton
 
-class ActionToggleButton(x: Double?, y: Double?, width: Double, height: Double, text: String, var publishAction: PublishAction = PublishAction.PRINT, defaultValue: Boolean = false, style: String = "", var showValueAsText: Boolean = false, var entryKey: String? = null, val isDisplay: Boolean = false): Button(text), Savable {
+class ActionToggleButton(x: Double?, y: Double?, width: Double, height: Double, text: String, var publishAction: PublishAction = PublishAction.PRINT, defaultValue: Boolean = false, var tStyle: String = " ", var fStyle: String = " ", var showValueAsText: Boolean = false, var entryKey: String? = null, val isDisplay: Boolean = false): Button(text), Savable {
     var defaultValue: Boolean = defaultValue
         set(value) {
             this.value = value
@@ -24,6 +24,7 @@ class ActionToggleButton(x: Double?, y: Double?, width: Double, height: Double, 
                 PublishAction.NONE -> {}
             }
             if (showValueAsText) { text = value.toString() }
+            updateStyle(value)
             field = value
         }
 
@@ -44,7 +45,7 @@ class ActionToggleButton(x: Double?, y: Double?, width: Double, height: Double, 
             this.minWidth = width
             this.minHeight = height
         }
-        this.style = style
+        this.style = if (value) tStyle else fStyle
         if (showValueAsText) {
             this.text = value.toString()
         }
@@ -59,6 +60,14 @@ class ActionToggleButton(x: Double?, y: Double?, width: Double, height: Double, 
         }
         //sets the context menu to rightClickMenu (whenever this button gets right-clicked it will show up)
         this.contextMenu = RightClickMenu(this, ActionToggleButtonSettings(this))
+    }
+    fun updateStyle(value: Boolean = this.value) {
+        if (value) {
+            this.style = tStyle
+        } else {
+            this.style = fStyle
+        }
+        println(this.style)
     }
 
     //adds the relocating and resizing to the button
@@ -100,10 +109,11 @@ class ActionToggleButton(x: Double?, y: Double?, width: Double, height: Double, 
 
     override fun getJson(): String {
         println("in $this getJson() function")
-        val data = jsonMapper.writeValueAsString(SavedActionToggleButton(translateX, translateY, width, height, text, publishAction, defaultValue, style, showValueAsText, entryKey))
+        val data = jsonMapper.writeValueAsString(SavedActionToggleButton(translateX, translateY, width, height, text, publishAction, defaultValue, tStyle, fStyle, showValueAsText, entryKey))
+        println(data)
         return jsonMapper.writeValueAsString(SavedNode("ActionToggleButton", data))
     }
-    override fun copySelf() = ActionToggleButton(translateX, translateY, width, height, text, publishAction, defaultValue, style, showValueAsText, entryKey)
+    override fun copySelf() = ActionToggleButton(translateX, translateY, width, height, text, publishAction, defaultValue, tStyle, fStyle, showValueAsText, entryKey)
     data class SavedActionToggleButton (
         val x: Double,
         val y: Double,
@@ -112,7 +122,8 @@ class ActionToggleButton(x: Double?, y: Double?, width: Double, height: Double, 
         val text: String,
         val publishAction: PublishAction,
         val defaultValue: Boolean,
-        val style: String,
+        val tstyle: String,
+        val fstyle: String,
         val showValueAsText: Boolean,
         val entryKey: String?
     )
