@@ -19,7 +19,16 @@ class ActionButton(x: Double?, y: Double?, width: Double, height: Double, text: 
             when (publishAction) {
                 PublishAction.PRINT -> { println(value) }
                 PublishAction.NETWORKTABLES -> {
-                    NTClient.ntInstance.getEntry(entryKey).setValue(value)
+                    if (value is Int) {
+                        NTClient.ntInstance.getEntry(entryKey).setInteger(value.toLong())
+                        println("value is Int!!!!!!!!!!!!!!!")
+                    } else if (value is Double) {
+                        NTClient.ntInstance.getEntry(entryKey).setDouble(value.toDouble())
+                        println("value is Double!!!!!!!!!!!!!!!")
+                    } else {
+                        NTClient.ntInstance.getEntry(entryKey).setValue(value)
+                        println("value is idk!!!!!!!!!!!!!!!")
+                    }
                 }
                 PublishAction.NONE -> {}
             }

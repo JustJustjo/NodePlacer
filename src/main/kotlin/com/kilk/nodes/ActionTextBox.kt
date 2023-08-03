@@ -25,7 +25,17 @@ class ActionTextBox(x: Double?, y: Double?, width: Double, height: Double, text:
                 PublishAction.PRINT -> { println(value) }
                 PublishAction.NONE -> {}
                 PublishAction.NETWORKTABLES -> {
-                    NTClient.ntInstance.getEntry(entryKey).setValue(value)
+                    try {
+                        NTClient.ntInstance.getEntry(entryKey).setValue(value.toInt())
+                    }
+                    catch (e: Exception) {
+                        try {
+                            NTClient.ntInstance.getEntry(entryKey).setValue(value.toDouble())
+                        }
+                        catch (e: Exception) {
+                            NTClient.ntInstance.getEntry(entryKey).setValue(value)
+                        }
+                    }
                 }
             }
             field = value

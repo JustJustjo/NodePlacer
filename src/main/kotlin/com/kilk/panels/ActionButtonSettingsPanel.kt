@@ -73,7 +73,7 @@ class ActionButtonSettingsPanel(button: ActionButton): NodeSettingsPanel(button)
                         }
                     }
                 }
-            println(button.actionValue)
+            println(Pair(button.actionValue, button.actionValue.javaClass))
         }
 
         buttonTypeLabel.contentDisplay = ContentDisplay.BOTTOM
