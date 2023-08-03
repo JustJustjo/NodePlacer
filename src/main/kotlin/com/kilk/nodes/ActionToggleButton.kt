@@ -35,8 +35,15 @@ class ActionToggleButton(x: Double?, y: Double?, width: Double, height: Double, 
             this.translateX = x
             this.translateY = y
         }
-        this.minWidth = width
-        this.minHeight = height
+        this.maxWidth = width
+        this.maxHeight = height
+        if (this.isDisplay) {
+            this.prefWidth = width
+            this.prefHeight = height
+        } else {
+            this.minWidth = width
+            this.minHeight = height
+        }
         this.style = style
         if (showValueAsText) {
             this.text = value.toString()
@@ -96,6 +103,7 @@ class ActionToggleButton(x: Double?, y: Double?, width: Double, height: Double, 
         val data = jsonMapper.writeValueAsString(SavedActionToggleButton(translateX, translateY, width, height, text, publishAction, defaultValue, style, showValueAsText, entryKey))
         return jsonMapper.writeValueAsString(SavedNode("ActionToggleButton", data))
     }
+    override fun copySelf() = ActionToggleButton(translateX, translateY, width, height, text, publishAction, defaultValue, style, showValueAsText, entryKey)
     data class SavedActionToggleButton (
         val x: Double,
         val y: Double,

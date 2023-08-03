@@ -16,4 +16,5 @@ interface Savable {
     fun snapToGrid(value: Double, gridSize: Int = TabDeck.gridSize) : Double { //Rounds past 1 ex: Input: (666.0, gridSize = 100) Output: 700.0
         return (round(value / gridSize) * gridSize)
     }
+    fun copySelf(): Savable? = null
 }

@@ -40,10 +40,15 @@ class ActionTextBox(x: Double?, y: Double?, width: Double, height: Double, text:
             this.translateX = x
             this.translateY = y
         }
-        this.minWidth = width
         this.maxWidth = width
-        this.minHeight = height
         this.maxHeight = height
+        if (this.isDisplay) {
+            this.prefWidth = width
+            this.prefHeight = height
+        } else {
+            this.minWidth = width
+            this.minHeight = height
+        }
         this.style = style
 
         changeTextBoxAction(this.textBoxType)
@@ -103,7 +108,6 @@ class ActionTextBox(x: Double?, y: Double?, width: Double, height: Double, text:
             setEditActions()
         }
     }
-    //what it will do to the value when reading
     private fun setWriteAction() {
         this.isEditable = true
         this.setOnKeyTyped {
@@ -115,7 +119,6 @@ class ActionTextBox(x: Double?, y: Double?, width: Double, height: Double, text:
         }
         updateTextBoxNTListener()
     }
-    //set to do nothing when clicked
     private fun setReadAction() {
         this.isEditable = false
         this.setOnKeyTyped {}
@@ -151,6 +154,7 @@ class ActionTextBox(x: Double?, y: Double?, width: Double, height: Double, text:
         val data = jsonMapper.writeValueAsString(SavedTextBox(translateX, translateY, width, height, text, textBoxType, publishAction, style, entryKey))
         return jsonMapper.writeValueAsString(SavedNode("ActionTextBox", data))
     }
+    override fun copySelf() = ActionTextBox(translateX, translateY, width, height, text, textBoxType, publishAction, style, entryKey)
     data class SavedTextBox (
         val x: Double,
         val y: Double,

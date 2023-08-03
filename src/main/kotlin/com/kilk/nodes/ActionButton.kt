@@ -35,8 +35,16 @@ class ActionButton(x: Double?, y: Double?, width: Double, height: Double, text: 
             this.translateX = x
             this.translateY = y
         }
-        this.minWidth = width
-        this.minHeight = height
+        this.maxWidth = width
+        this.maxHeight = height
+        if (this.isDisplay) {
+            println("I AM DISPLAYYYYYYYYYYYY")
+            this.prefWidth = width
+            this.prefHeight = height
+        } else {
+            this.minHeight = height
+            this.minHeight = width
+        }
         this.style = style
         if (showValueAsText) {
             this.text = value.toString()
@@ -133,6 +141,7 @@ class ActionButton(x: Double?, y: Double?, width: Double, height: Double, text: 
         val data = jsonMapper.writeValueAsString(SavedActionButton(translateX, translateY, width, height, text, buttonType, publishAction, defaultValue, actionValue, style, showValueAsText, entryKey))
         return jsonMapper.writeValueAsString(SavedNode("ActionButton", data))
     }
+    override fun copySelf() = ActionButton(translateX, translateY, width, height, text, buttonType, publishAction, defaultValue, actionValue, style, showValueAsText, entryKey)
     data class SavedActionButton (
         val x: Double,
         val y: Double,
